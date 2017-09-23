@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Commuted</string>
     <string name="welcome_to_your_commute">Welcome to your commute</string>
-    <string name="seek_to_begin">Eta $1%d</string>
+    <string name="eta_string">Eta %1$d minutes</string>
 </resources>
