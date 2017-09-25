@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -27,7 +29,14 @@ public class ProgressActivity extends AppCompatActivity {
         setContentView(R.layout.activity_progress);
 
         imageSwitcher = findViewById(R.id.image_switcher);
-        imageSwitcher.setFactory(() -> new ImageView(this));
+        imageSwitcher.setFactory(() -> {
+            ImageView imageView = new ImageView(this);
+            imageView.setLayoutParams(
+                    new ImageSwitcher.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT));
+            return imageView;
+        });
         seekBar = findViewById(R.id.seek_bar);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
