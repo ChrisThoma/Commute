@@ -1,19 +1,14 @@
 package com.christhoma.commuted;
 
-import android.graphics.drawable.Drawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
+import android.support.graphics.drawable.AnimationUtilsCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.SeekBar;
-import android.widget.ViewSwitcher;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ProgressActivity extends AppCompatActivity {
 
@@ -21,7 +16,6 @@ public class ProgressActivity extends AppCompatActivity {
     ImageSwitcher imageSwitcher;
     SeekBar seekBar;
     int seekbarPosition = 0;
-    List<ImageView> images = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +23,10 @@ public class ProgressActivity extends AppCompatActivity {
         setContentView(R.layout.activity_progress);
 
         imageSwitcher = findViewById(R.id.image_switcher);
+        Animation animationIn = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
+        Animation animationOut = AnimationUtils.loadAnimation(this, android.R.anim.fade_out);
+        imageSwitcher.setInAnimation(animationIn);
+        imageSwitcher.setOutAnimation(animationOut);
         imageSwitcher.setFactory(() -> {
             ImageView imageView = new ImageView(this);
             imageView.setLayoutParams(
@@ -37,6 +35,7 @@ public class ProgressActivity extends AppCompatActivity {
                             ViewGroup.LayoutParams.MATCH_PARENT));
             return imageView;
         });
+
         seekBar = findViewById(R.id.seek_bar);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
