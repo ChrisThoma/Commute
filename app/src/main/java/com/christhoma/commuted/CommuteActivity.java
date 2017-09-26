@@ -13,10 +13,16 @@ public class CommuteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commute);
 
+        final int time = (int) (Math.random() * (120 - 60)) + 60;
+
         Button startButton = findViewById(R.id.start_button);
-        startButton.setOnClickListener(v -> startActivity(new Intent(this, ProgressActivity.class)));
+        startButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ProgressActivity.class);
+            intent.putExtra(ProgressActivity.TIME_EXTRA_KEY, time);
+            startActivity(intent);
+        });
 
         TextView etaText = findViewById(R.id.eta_text);
-        etaText.setText(getString(R.string.eta_string, 10));
+        etaText.setText(getString(R.string.eta_string, time));
     }
 }

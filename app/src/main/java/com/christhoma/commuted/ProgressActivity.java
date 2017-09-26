@@ -1,5 +1,6 @@
 package com.christhoma.commuted;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -13,16 +14,20 @@ import android.widget.SeekBar;
 public class ProgressActivity extends AppCompatActivity {
 
     private static final String TAG = "ProgressActivity";
+    static final String TIME_EXTRA_KEY = "TIME_EXTRA_KEY";
     ImageSwitcher imageSwitcher;
     SeekBar seekBar;
     ImageView trafficImage;
     int seekbarPosition = 0;
+    int time = -1;
+    int waitTime;
     boolean progressAllowed = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_progress);
+        Intent intent = getIntent();
 
         trafficImage = findViewById(R.id.traffic_image);
         imageSwitcher = findViewById(R.id.image_switcher);
@@ -52,7 +57,7 @@ public class ProgressActivity extends AppCompatActivity {
                     seekBar.postDelayed(() -> {
                         progressAllowed = true;
                         trafficImage.setColorFilter(ContextCompat.getColor(ProgressActivity.this, R.color.green));
-                    }, 4000);
+                    }, waitTime);
                     setImage(position);
                 }
             }
@@ -67,6 +72,15 @@ public class ProgressActivity extends AppCompatActivity {
 
             }
         });
+
+        if (intent != null) {
+            time = intent.getIntExtra(TIME_EXTRA_KEY, -1);
+            waitTime = 1000 * (time / seekBar.getMax());
+        }
+        if (time == -1) {
+            finish();
+            //something went wrong
+        }
 
         setImage(0);
     }
