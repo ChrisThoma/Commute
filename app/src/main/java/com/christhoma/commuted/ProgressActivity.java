@@ -1,7 +1,7 @@
 package com.christhoma.commuted;
 
 import android.os.Bundle;
-import android.support.graphics.drawable.AnimationUtilsCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -15,13 +15,16 @@ public class ProgressActivity extends AppCompatActivity {
     private static final String TAG = "ProgressActivity";
     ImageSwitcher imageSwitcher;
     SeekBar seekBar;
+    ImageView trafficImage;
     int seekbarPosition = 0;
+    boolean progressAllowed = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_progress);
 
+        trafficImage = findViewById(R.id.traffic_image);
         imageSwitcher = findViewById(R.id.image_switcher);
         Animation animationIn = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
         Animation animationOut = AnimationUtils.loadAnimation(this, android.R.anim.fade_out);
@@ -40,10 +43,16 @@ public class ProgressActivity extends AppCompatActivity {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int position, boolean b) {
-                if (position != seekbarPosition + 1) {
+                if (!progressAllowed || position != seekbarPosition + 1) {
                     seekBar.setProgress(seekbarPosition);
                 } else {
                     seekbarPosition = position;
+                    progressAllowed = false;
+                    trafficImage.setColorFilter(ContextCompat.getColor(ProgressActivity.this, R.color.red));
+                    seekBar.postDelayed(() -> {
+                        progressAllowed = true;
+                        trafficImage.setColorFilter(ContextCompat.getColor(ProgressActivity.this, R.color.green));
+                    }, 4000);
                     setImage(position);
                 }
             }
