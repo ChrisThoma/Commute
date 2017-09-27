@@ -1,6 +1,8 @@
-package com.christhoma.commuted;
+package com.christhoma.commuted.widget;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.util.AttributeSet;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
@@ -20,6 +22,7 @@ public class PicassoSwitcher extends ImageSwitcher {
     @Override
     public void setImageResource(int resid) {
         ImageView imageView = (ImageView) getNextView();
-        Picasso.with(getContext()).load(resid).fit().into(imageView);
+        Picasso.with(getContext()).load(resid).fit().transform(new BlurTransform(getContext())).into(imageView);
+        showNext();
     }
 }

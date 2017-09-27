@@ -8,7 +8,7 @@
     tools:context="com.christhoma.commuted.ProgressActivity">
 
 
-    <com.christhoma.commuted.PicassoSwitcher
+    <com.christhoma.commuted.widget.PicassoSwitcher
         android:id="@+id/image_switcher"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,7 +19,7 @@
         app:layout_constraintVertical_bias="1.0"
         app:layout_constraintHorizontal_bias="1.0">
 
-    </com.christhoma.commuted.PicassoSwitcher>
+    </com.christhoma.commuted.widget.PicassoSwitcher>
 
     <SeekBar
         android:id="@+id/seek_bar"
