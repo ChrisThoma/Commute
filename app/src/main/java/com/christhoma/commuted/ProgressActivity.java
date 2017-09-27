@@ -2,7 +2,6 @@ package com.christhoma.commuted;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -29,9 +28,26 @@ public class ProgressActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_progress);
-        Intent intent = getIntent();
 
         trafficImage = findViewById(R.id.traffic_image);
+
+        initializeImageSwitcher();
+        initializeSeekbar();
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            time = intent.getIntExtra(TIME_EXTRA_KEY, -1);
+            waitTime = 1000 * (time / seekBar.getMax());
+        }
+        if (time == -1) {
+            finish();
+            //something went wrong
+        }
+
+        initializeState();
+    }
+
+    private void initializeImageSwitcher() {
         imageSwitcher = findViewById(R.id.image_switcher);
         Animation animationIn = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
         Animation animationOut = AnimationUtils.loadAnimation(this, android.R.anim.fade_out);
@@ -45,7 +61,9 @@ public class ProgressActivity extends AppCompatActivity {
                             ViewGroup.LayoutParams.MATCH_PARENT));
             return imageView;
         });
+    }
 
+    private void initializeSeekbar() {
         seekBar = findViewById(R.id.seek_bar);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -74,16 +92,9 @@ public class ProgressActivity extends AppCompatActivity {
 
             }
         });
+    }
 
-        if (intent != null) {
-            time = intent.getIntExtra(TIME_EXTRA_KEY, -1);
-            waitTime = 1000 * (time / seekBar.getMax());
-        }
-        if (time == -1) {
-            finish();
-            //something went wrong
-        }
-
+    private void initializeState() {
         progressAllowed = false;
         seekBar.postDelayed(() -> {
             progressAllowed = true;
