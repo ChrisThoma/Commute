@@ -11,6 +11,7 @@ import android.support.v8.renderscript.ScriptIntrinsicBlur;
 import com.squareup.picasso.Transformation;
 
 import java.lang.ref.WeakReference;
+import java.util.Random;
 
 
 public class BlurTransform implements Transformation {
@@ -38,7 +39,8 @@ public class BlurTransform implements Transformation {
         script.setInput(input);
 
         // Set the blur radius
-        script.setRadius(25);
+        Random random = new Random();
+        script.setRadius(random.nextInt(25));
 
         // Start the ScriptIntrinisicBlur
         script.forEach(output);
