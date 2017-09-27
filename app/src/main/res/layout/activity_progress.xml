@@ -37,11 +37,10 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:tint="@color/green"
         android:id="@+id/traffic_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_menu_directions"
+        app:srcCompat="@drawable/ic_wait"
         tools:layout_editor_absoluteY="573dp"
         android:layout_marginLeft="16dp"
         app:layout_constraintLeft_toLeftOf="parent"

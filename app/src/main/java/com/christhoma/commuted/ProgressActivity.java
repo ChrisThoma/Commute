@@ -55,11 +55,11 @@ public class ProgressActivity extends AppCompatActivity {
                 } else {
                     seekbarPosition = position;
                     progressAllowed = false;
-                    trafficImage.setColorFilter(ContextCompat.getColor(ProgressActivity.this, R.color.red));
+                    trafficImage.setImageResource(R.drawable.ic_wait);
                     setImage(position);
                     seekBar.postDelayed(() -> {
                         progressAllowed = true;
-                        trafficImage.setColorFilter(ContextCompat.getColor(ProgressActivity.this, R.color.green));
+                        trafficImage.setImageResource(R.drawable.ic_continue);
                     }, waitTime);
                 }
             }
@@ -84,6 +84,11 @@ public class ProgressActivity extends AppCompatActivity {
             //something went wrong
         }
 
+        progressAllowed = false;
+        seekBar.postDelayed(() -> {
+            progressAllowed = true;
+            trafficImage.setImageResource(R.drawable.ic_continue);
+        }, waitTime);
         setImage(0);
     }
 
