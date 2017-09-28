@@ -39,7 +39,11 @@ public class BlurTransform implements Transformation {
 
         // Set the blur radius
         Random random = new Random();
-        script.setRadius(random.nextInt(25));
+        int radius = random.nextInt(25);
+        if (radius == 0) {
+            radius = 1;
+        }
+        script.setRadius(radius);
 
         // Start the ScriptIntrinisicBlur
         script.forEach(output);

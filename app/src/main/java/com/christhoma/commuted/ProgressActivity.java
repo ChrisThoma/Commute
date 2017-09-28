@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.christhoma.commuted.widget.PicassoSwitcher;
 
@@ -23,6 +24,7 @@ public class ProgressActivity extends AppCompatActivity {
     int time = -1;
     int waitTime;
     boolean progressAllowed = true;
+    Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,7 @@ public class ProgressActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int position, boolean b) {
                 if (!progressAllowed || position != seekbarPosition + 1) {
                     seekBar.setProgress(seekbarPosition);
+                    attemptShowToast();
                 } else {
                     seekbarPosition = position;
                     progressAllowed = false;
@@ -100,39 +103,18 @@ public class ProgressActivity extends AppCompatActivity {
             progressAllowed = true;
             trafficImage.setImageResource(R.drawable.ic_continue);
         }, waitTime);
-        setImage(0);
+        imageSwitcher.setImageResource(ImageProvider.getImageForBucket(1));
     }
 
     private void setImage(int position) {
-        switch (position) {
-            case 0:
-                imageSwitcher.setImageResource((R.drawable.img_1));
-                break;
-            case 1:
-                imageSwitcher.setImageResource((R.drawable.img_2));
-                break;
-            case 2:
-                imageSwitcher.setImageResource((R.drawable.img_3));
-                break;
-            case 3:
-                imageSwitcher.setImageResource((R.drawable.img_4));
-                break;
-            case 4:
-                imageSwitcher.setImageResource((R.drawable.img_5));
-                break;
-            case 5:
-                imageSwitcher.setImageResource((R.drawable.img_6));
-                break;
-            case 6:
-                imageSwitcher.setImageResource((R.drawable.img_7));
-                break;
-            case 7:
-                imageSwitcher.setImageResource((R.drawable.img_8));
-                break;
-            case 8:
-                imageSwitcher.setImageResource((R.drawable.img_9));
-                break;
-            default:
+        imageSwitcher.setImageResource(ImageProvider.getImageForBucket(position + 1));
+    }
+
+    private void attemptShowToast() {
+        if (toast != null) {
+            toast.cancel();
         }
+        toast = Toast.makeText(this, R.string.stuck_toast_text, Toast.LENGTH_SHORT);
+        toast.show();
     }
 }

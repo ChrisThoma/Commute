@@ -2,4 +2,5 @@
     <string name="app_name">Commuted</string>
     <string name="welcome_to_your_commute">Welcome to your commute</string>
     <string name="eta_string">Eta %1$d minutes</string>
+    <string name="stuck_toast_text">Can\'t move yet, stuck in traffic</string>
 </resources>
