@@ -3,6 +3,7 @@ package com.christhoma.commuted;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -71,28 +72,20 @@ public class ProgressActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int position, boolean b) {
                 if (!progressAllowed || position != seekbarPosition + 1) {
-                    seekBar.setProgress(seekbarPosition);
-                    attemptShowToast();
+                    doNotMoveSeekbar();
                 } else {
-                    seekbarPosition = position;
-                    progressAllowed = false;
-                    trafficImage.setImageResource(R.drawable.ic_wait);
-                    setImage(position);
-                    seekBar.postDelayed(() -> {
-                        progressAllowed = true;
-                        trafficImage.setImageResource(R.drawable.ic_continue);
-                    }, waitTime);
+                    moveSeekbar(position);
                 }
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
+                //do nothing
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                //do nothing
             }
         });
     }
@@ -106,8 +99,9 @@ public class ProgressActivity extends AppCompatActivity {
         imageSwitcher.setImageResource(ImageProvider.getImageForBucket(1));
     }
 
-    private void setImage(int position) {
-        imageSwitcher.setImageResource(ImageProvider.getImageForBucket(position + 1));
+    private void doNotMoveSeekbar() {
+        seekBar.setProgress(seekbarPosition);
+        attemptShowToast();
     }
 
     private void attemptShowToast() {
@@ -116,5 +110,31 @@ public class ProgressActivity extends AppCompatActivity {
         }
         toast = Toast.makeText(this, R.string.stuck_toast_text, Toast.LENGTH_SHORT);
         toast.show();
+    }
+
+    private void moveSeekbar(int position) {
+        seekbarPosition = position;
+        progressAllowed = false;
+        trafficImage.setImageResource(R.drawable.ic_wait);
+        setImage(position);
+        if (position == seekBar.getMax()) {
+            seekBar.postDelayed(this::showFinalState, waitTime);
+        } else {
+            seekBar.postDelayed(() -> {
+                progressAllowed = true;
+                trafficImage.setImageResource(R.drawable.ic_continue);
+            }, waitTime);
+        }
+    }
+
+    private void showFinalState() {
+        imageSwitcher.setImageResource(R.drawable.img_1862);
+        seekBar.setVisibility(View.GONE);
+        trafficImage.setVisibility(View.GONE);
+        Toast.makeText(ProgressActivity.this, "Finally here. Do I have everything?", Toast.LENGTH_SHORT).show();
+    }
+
+    private void setImage(int position) {
+        imageSwitcher.setImageResource(ImageProvider.getImageForBucket(position + 1));
     }
 }
